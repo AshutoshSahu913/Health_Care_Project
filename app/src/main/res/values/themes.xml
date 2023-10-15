@@ -1,0 +1,15 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.HealthCareProject" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/appColor</item>
+        <item name="colorPrimaryDark">@color/appColor</item>
+        <item name="colorPrimaryVariant">@color/color1</item>
+        <item name="colorOnPrimaryContainer">@color/color1</item>
+
+    </style>
+
+    <style name="THEME_HOLD_DARK" parent="ThemeOverlay.Material3.MaterialAlertDialog" />
+
+    <style name="Theme.HealthCareProject" parent="Base.Theme.HealthCareProject" />
+</resources>
