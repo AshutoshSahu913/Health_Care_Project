@@ -16,3 +16,4 @@ Designed intuitive and aesthetically pleasing interfaces adhering to Material De
 Integrated a secure login and registration system using SQLite, prioritizing user safety and personalization throughout their healthcare journey.
 Building this application was a rewarding experience, and I'm proud to have contributed to enhancing healthcare accessibility and convenience for users.
 If you're interested in learning more about the project or discussing potential collaborations, feel free to reach out! 🤝
+![Uploading Screenshot_20231016_020029.png…]()
