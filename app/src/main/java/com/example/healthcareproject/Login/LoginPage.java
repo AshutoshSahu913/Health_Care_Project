@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,7 @@ public class LoginPage extends AppCompatActivity {
     TextInputEditText edit_userName, edit_password;
     Button login_btn;
     TextView register_tv;
-
+    private CheckBox showPasswordCheckbox;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,19 @@ public class LoginPage extends AppCompatActivity {
         edit_password = findViewById(R.id.editPassword);
         login_btn = findViewById(R.id.loginBtn);
         register_tv = findViewById(R.id.register);
-        DataBase db=new DataBase(this);
+        DataBase db = new DataBase(this);
+
+        /*--------------------------------------------------------------Show password ---------------------------------------------------------------------------------------*/
+        showPasswordCheckbox = findViewById(R.id.showPasswordCheckbox);
+
+        showPasswordCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Show or hide the password based on the checkbox state
+            if (isChecked) {
+                edit_password.setTransformationMethod(null); // Show password
+            } else {
+                edit_password.setTransformationMethod(new PasswordTransformationMethod()); // Hide password
+            }
+        });
 
         login_btn.setOnClickListener(view -> {
             /*--------------------------------------------------------------This check the editText is empty or not---------------------------------------------------------------------------------------*/

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,21 +22,15 @@ public class FindDoctor extends AppCompatActivity {
     DoctorAdapter doctorAdapter;
     ImageView backToHome;
 
-    TextView titleFD;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_doctor);
-//        Intent i=getIntent();
-//        String title=i.getStringExtra("title");
-//        titleFD = findViewById(R.id.titleFD);
-//        titleFD.setText(title);
+
         /*--------------------------------------------------------------Go back to Home Activity---------------------------------------------------------------------------------------*/
         backToHome = findViewById(R.id.backToHome);
-        backToHome.setOnClickListener(view -> {
-            startActivity(new Intent(FindDoctor.this, HomePage.class));
-        });
+        backToHome.setOnClickListener(view -> startActivity(new Intent(FindDoctor.this, HomePage.class)));
 
         /*--------------------------------------------------------------Go back to Home Activity---------------------------------------------------------------------------------------*/
         list = new ArrayList<>();

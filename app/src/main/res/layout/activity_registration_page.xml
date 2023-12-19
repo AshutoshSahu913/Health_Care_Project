@@ -159,6 +159,12 @@
                     </com.google.android.material.textfield.TextInputEditText>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <CheckBox
+                    android:id="@+id/showPasswordCheckbox2"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_height="20dp"
+                    android:text="Show Password" />
             </LinearLayout>
 
             <Button

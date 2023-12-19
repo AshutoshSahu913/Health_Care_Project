@@ -3,16 +3,12 @@ package com.example.healthcareproject.LabTest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.healthcareproject.Cart.MyCartLab;
 import com.example.healthcareproject.HomePage;
 import com.example.healthcareproject.R;
 
@@ -22,7 +18,7 @@ import java.util.HashMap;
 public class LabTest extends AppCompatActivity {
 
     ImageView backToHome, goToCart;
-    private String[][] packages = {
+    private final String[][] packages = {
             {"Basic Checkup", "199"},
             {"Comprehensive Checkup", "399"},
             {"Executive Checkup", "599"},
@@ -37,7 +33,7 @@ public class LabTest extends AppCompatActivity {
             {"Heart Health Checkup", "499"}
     };
 
-    private String[] package_details = {
+    private final String[] package_details = {
             "Blood Pressure Measurement\nComplete Blood Count",
             "Blood Glucose Fasting\nLipid Profile\nLiver Function Test\nComplete Blood Count",
             "Blood Glucose Fasting\nLipid Profile\nLiver Function Test\nKidney Function Test\nThyroid Profile",
@@ -56,41 +52,30 @@ public class LabTest extends AppCompatActivity {
     ArrayList list;
     SimpleAdapter sa;
     ListView listView;
-    TextView titleLT;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lab_test);
-//        Intent it=getIntent();
-//        String title=it.getStringExtra("title");
-//        titleLT = findViewById(R.id.titleLT1);
-//        titleLT.setText(title);
-
         /*--------------------------------------Go back to Home activity ----------------------------------------------------------------------------------------*/
         backToHome = findViewById(R.id.backToHomeLT);
-        backToHome.setOnClickListener(view -> {
-            startActivity(new Intent(LabTest.this, HomePage.class));
-        });
+        backToHome.setOnClickListener(view -> startActivity(new Intent(LabTest.this, HomePage.class)));
 
         /*--------------------------------------Go to Lab Cart activity ----------------------------------------------------------------------------------------*/
         goToCart = findViewById(R.id.goToCartBtn);
-        goToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LabTest.this, MyCartLab.class);
-                startActivity(i);
-            }
+        goToCart.setOnClickListener(view -> {
+            Intent i = new Intent(LabTest.this, MyCartLab.class);
+            startActivity(i);
         });
 
         /*--------------------------------------Set The data form list View  ----------------------------------------------------------------------------------------*/
         listView = findViewById(R.id.labTestList);
         list = new ArrayList<>();
-        for (int i = 0; i < packages.length; i++) {
-            item = new HashMap<String, String>();
-            item.put("line1", packages[i][0]);
-            item.put("line2", "Total Cost : " + packages[i][1]);
+        for (String[] aPackage : packages) {
+            item = new HashMap<>();
+            item.put("line1", aPackage[0]);
+            item.put("line2", "Total Cost : " + aPackage[1]);
             list.add(item);
         }
         sa = new SimpleAdapter(this, list,
@@ -100,15 +85,12 @@ public class LabTest extends AppCompatActivity {
         );
         listView.setAdapter(sa);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent it = new Intent(LabTest.this, LabTestDetails.class);
-                it.putExtra("text1", packages[i][0]);
-                it.putExtra("text2", package_details[i]);
-                it.putExtra("text3", packages[i][1]);
-                startActivity(it);
-            }
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent it = new Intent(LabTest.this, LabTestDetails.class);
+            it.putExtra("text1", packages[i][0]);
+            it.putExtra("text2", package_details[i]);
+            it.putExtra("text3", packages[i][1]);
+            startActivity(it);
         });
 
     }

@@ -2,7 +2,6 @@ package com.example.healthcareproject.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +42,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.viewHolder
 
         holder.cardView.setOnClickListener(view->{
             Intent i = new Intent(context, DoctorDetails.class);
-
             i.putExtra("dept", doctorModel.getDoctorDept());
-
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
         });

@@ -1,4 +1,4 @@
-package com.example.healthcareproject.Medicine;
+package com.example.healthcareproject.LabTest;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,30 +23,30 @@ import com.google.android.material.timepicker.TimeFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MyCartMedicine extends AppCompatActivity {
+public class MyCartLab extends AppCompatActivity {
+
     HashMap<String, String> item;
     ArrayList list;
     SimpleAdapter sa;
-    TextView totalCost, dateBM, timeBM;
-    Button buyBtnBMC;
-    ImageView backBtnBM;
-    TextView tvBM;
+    TextView totalCost, date, time;
+    Button buyBtn;
+    ImageView backBtn;
+    TextView tv;
 
     ListView listView;
 
-    public MyCartMedicine() {
-    }
 
-    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_cart_medicine);
-        dateBM = findViewById(R.id.selectDeliveryDateBM);
-        timeBM = findViewById(R.id.selectDeliveryTimeBM);
-        buyBtnBMC = findViewById(R.id.buyBtnBM);
-        listView = findViewById(R.id.lvBMC);
-        tvBM = findViewById(R.id.noDataBM);
+        setContentView(R.layout.activity_my_cart_lab);
+
+        date = findViewById(R.id.selectDeliveryDate);
+        time = findViewById(R.id.selectDeliveryTime);
+        buyBtn = findViewById(R.id.buyBtn);
+        listView = findViewById(R.id.myCartLabListView);
+        tv = findViewById(R.id.noData);
 
         /*--------------------------------------------------Shared preferences-------------------------------------------------------------------*/
         SharedPreferences sharedPreferences = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
@@ -54,26 +54,24 @@ public class MyCartMedicine extends AppCompatActivity {
 
 
         /*==============================Back to labTest ===================================================*/
-        backBtnBM = findViewById(R.id.backToBM);
-        backBtnBM.setOnClickListener(view -> startActivity(new Intent(MyCartMedicine.this, BuyMedicine.class)));
-
+        backBtn = findViewById(R.id.backToLabTest);
+        backBtn.setOnClickListener(view -> startActivity(new Intent(MyCartLab.this, LabTest.class)));
         /*--------------------------------------------------This Date picker-------------------------------------------------------------------*/
         initDatePicker();
 
         /*--------------------------------------------------This Time picker-------------------------------------------------------------------*/
         initTimePicker();
 
-
         /*--------------------------------------------------Create object of Database-------------------------------------------------------------------*/
         DataBase db = new DataBase(this);
         float totalAmount = 0;
-        ArrayList dbData = db.getCartData(username, "medicine");
+        ArrayList dbData = db.getCartData(username, "lab");
         if (dbData.size() == 0) {
 
-            tvBM.setVisibility(View.VISIBLE);
+            tv.setVisibility(View.VISIBLE);
         } else {
 //        Toast.makeText(this, "" + dbData, Toast.LENGTH_SHORT).show();
-            tvBM.setVisibility(View.GONE);
+            tv.setVisibility(View.GONE);
             /*--------------------------------------------------This is for listView-------------------------------------------------------------------*/
             list = new ArrayList<>();
             String[][] packages = new String[dbData.size()][];
@@ -88,13 +86,13 @@ public class MyCartMedicine extends AppCompatActivity {
                 totalAmount = totalAmount + Float.parseFloat(strData[1]);
 
             }
-            totalCost = findViewById(R.id.totalCostBM);
-            totalCost.setText("" + totalAmount);
+            totalCost = findViewById(R.id.totalCost);
+            totalCost.setText(totalAmount+"");
 
             for (int j = 0; j < dbData.size(); j++) {
                 item = new HashMap<>();
                 item.put("line1", packages[j][0]);
-                item.put("line2", packages[j][4]);
+                item.put("line2", "₹" + packages[j][4]);
                 list.add(item);
             }
             sa = new SimpleAdapter(this, list,
@@ -104,11 +102,11 @@ public class MyCartMedicine extends AppCompatActivity {
             listView.setAdapter(sa);
 
             /*--------------------------------------------------This is for Buy products-------------------------------------------------------------------*/
-            buyBtnBMC.setOnClickListener(view -> {
-                Intent i = new Intent(MyCartMedicine.this, BookMedicine.class);
+            buyBtn.setOnClickListener(view -> {
+                Intent i = new Intent(MyCartLab.this, BookLabTest.class);
                 i.putExtra("price", totalCost.getText());
-                i.putExtra("date", dateBM.getText());
-                i.putExtra("time", timeBM.getText());
+                i.putExtra("date", date.getText());
+                i.putExtra("time", time.getText());
                 startActivity(i);
             });
         }
@@ -126,7 +124,7 @@ public class MyCartMedicine extends AppCompatActivity {
 
         // now define the properties of the
         // materialDateBuilder that is title text as SELECT A DATE
-        materialDateBuilder.setTitleText("SELECT A MEDICINE DELIVERED DATE");
+        materialDateBuilder.setTitleText("SELECT A LAB TEST DATE");
 
         // now create the instance of the material date
         // picker
@@ -134,7 +132,7 @@ public class MyCartMedicine extends AppCompatActivity {
 
         // handle select date button which opens the
         // material design date picker
-        dateBM.setOnClickListener(
+        date.setOnClickListener(
                 v -> {
                     // getSupportFragmentManager() to
                     // interact with the fragments
@@ -152,7 +150,7 @@ public class MyCartMedicine extends AppCompatActivity {
                     // if the user clicks on the positive
                     // button that is ok button update the
                     // selected date
-                    dateBM.setText(/*"Selected Date is : "*/  materialDatePicker.getHeaderText());
+                    date.setText(/*"Selected Date is : "*/  materialDatePicker.getHeaderText());
                     // in the above statement, getHeaderText
                     // is the selected date preview from the
                     // dialog
@@ -161,11 +159,11 @@ public class MyCartMedicine extends AppCompatActivity {
 
     /*--------------------------------------------------This is method for the Time picker-------------------------------------------------------------------*/
     private void initTimePicker() {
-        timeBM.setOnClickListener(view -> {
+        time.setOnClickListener(view -> {
             // instance of MDC time picker
             MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
                     // set the title for the alert dialog
-                    .setTitleText("SELECT YOUR MEDICINE DELIVERED TIMING")
+                    .setTitleText("SELECT YOUR LAB TEST TIMING")
                     // set the default hour for the
                     // dialog when the dialog opens
                     .setHour(12)
@@ -207,8 +205,9 @@ public class MyCartMedicine extends AppCompatActivity {
                 }
 
                 // then update the preview TextView
-                timeBM.setText(formattedTime);
+                time.setText(formattedTime);
             });
         });
     }
+
 }

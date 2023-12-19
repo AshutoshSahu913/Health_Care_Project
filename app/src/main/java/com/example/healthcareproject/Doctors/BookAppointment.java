@@ -1,18 +1,13 @@
 package com.example.healthcareproject.Doctors;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.healthcareproject.DataBase.DataBase;
 import com.example.healthcareproject.HomePage;
 import com.example.healthcareproject.R;
-
-import java.util.Calendar;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 public class BookAppointment extends AppCompatActivity {
 
@@ -31,10 +28,6 @@ public class BookAppointment extends AppCompatActivity {
     ImageView backToHomeDetails;
     TextView selectDateTxt, selectTimeTxt;
     Button bookAppointment;
-
-
-    private DatePickerDialog datePickerDialog;
-    private TimePickerDialog timePickerDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -60,8 +53,6 @@ public class BookAppointment extends AppCompatActivity {
 //        textView4.setKeyListener(null);
 
         /*--------------------------------------------------Set data in the textView-------------------------------------------------------------------*/
-        SharedPreferences sharedPreferences = getSharedPreferences("titleDept", Context.MODE_PRIVATE);
-        String titleDept=sharedPreferences.getString("title","").toString();
 
         //To save our data with key and value
 
@@ -87,59 +78,34 @@ public class BookAppointment extends AppCompatActivity {
 
         /*--------------------------------------------------Back to Doctor Details activity-------------------------------------------------------------------*/
         backToHomeDetails = findViewById(R.id.backToDoctorDetails);
-        backToHomeDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(BookAppointment.this, DoctorDetails.class);
-//                i.putExtra("title", deptTitle.toString());
-
-//            editor.putString("text2", textView1.toString());
-//            editor.putString("text3", textView2.toString());
-//            editor.putString("text4", textView3.toString());
-//            editor.putString("text5", textView4.toString());
-
-
-                /*------------------------------------------------------------------------------------------------*/
-          /*  SharedPreferences sharedPreferences=getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor=sharedPreferences.edit();
-//            editor.putString("department",title);
-            //To save our data with key and value
-
-            editor.apply();*/
-                /*------------------------------------------------------------------------------------------------*/
-                startActivity(i);
-
-            }
+        backToHomeDetails.setOnClickListener(view -> {
+            /*Intent i = new Intent(BookAppointment.this, HomePage.class);
+            startActivity(i);*/
+            onBackPressed();
         });
-
-
 
         /*--------------------------------------------------define select data picker -------------------------------------------------------------------*/
         selectDateTxt = findViewById(R.id.selectDateText);
         initDatePicker();
-        selectDateTxt.setOnClickListener(view -> datePickerDialog.show());
 
 
         /*--------------------------------------------------define select Time picker -------------------------------------------------------------------*/
         selectTimeTxt = findViewById(R.id.selectTimeText);
         initTimePicker();
-        selectTimeTxt.setOnClickListener(view -> timePickerDialog.show());
 
         /*--------------------------------------------------Book Appointment-------------------------------------------------------------------*/
         bookAppointment = findViewById(R.id.bookAppointmentBtn);
-        bookAppointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DataBase db = new DataBase(getApplicationContext());
-                SharedPreferences sharedPreferences = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
-                String username = sharedPreferences.getString("username", "").toString();
-                if (db.checkAppointmentExists(username, title/*titleDept*/ + "=>" + full_name, address, contact, selectDateTxt.getText().toString(), selectTimeTxt.getText().toString()) == 1) {
-                    Toast.makeText(BookAppointment.this, "Appointment already Booked", Toast.LENGTH_SHORT).show();
-                } else {
-                    db.addOrder(username, title/*titleDept*/ + "=>" + full_name, address, contact, 0, selectDateTxt.getText().toString(), selectTimeTxt.getText().toString(), Float.parseFloat(fees), "appointment");
-                    Toast.makeText(BookAppointment.this, "Your appointment is done successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(BookAppointment.this, HomePage.class));
-                }
+        bookAppointment.setOnClickListener(view -> {
+            DataBase db = new DataBase(getApplicationContext());
+            SharedPreferences sharedPreferences = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
+            String username = sharedPreferences.getString("username", "");
+            if (db.checkAppointmentExists(username, title/*titleDept*/ + "=>" + full_name, address, contact, selectDateTxt.getText().toString(), selectTimeTxt.getText().toString()) == 1) {
+                Toast.makeText(BookAppointment.this, "Appointment already Booked", Toast.LENGTH_SHORT).show();
+            } else {
+                assert fees != null;
+                db.addOrder(username, title/*titleDept*/ + "=>" + full_name, address, contact, 0, selectDateTxt.getText().toString(), selectTimeTxt.getText().toString(), Float.parseFloat(fees), "appointment");
+                Toast.makeText(BookAppointment.this, "Your appointment is done successfully", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(BookAppointment.this, HomePage.class));
             }
         });
 
@@ -147,40 +113,103 @@ public class BookAppointment extends AppCompatActivity {
 
     /*--------------------------------------------------This is method for the Date picker-------------------------------------------------------------------*/
     private void initDatePicker() {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                i1 = i1 + 1;
-                selectDateTxt.setText(i2 + "/" + i1 + "/" + i);
-            }
-        };
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        int style = android.R.style.Theme_Wallpaper;
-        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
-        datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis() + 86400000);
+        // now create instance of the material date picker
+        // builder make sure to add the "datePicker" which
+        // is normal material date picker which is the first
+        // type of the date picker in material design date
+        // picker
+        MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
+
+        // now define the properties of the
+        // materialDateBuilder that is title text as SELECT A DATE
+        materialDateBuilder.setTitleText("SELECT A APPOINTMENT DATE");
+
+        // now create the instance of the material date
+        // picker
+        final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
+
+        // handle select date button which opens the
+        // material design date picker
+        selectDateTxt.setOnClickListener(
+                v -> {
+                    // getSupportFragmentManager() to
+                    // interact with the fragments
+                    // associated with the material design
+                    // date picker tag is to get any error
+                    // in logcat
+                    materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+                });
+
+        // now handle the positive button click from the
+        // material design date picker
+        materialDatePicker.addOnPositiveButtonClickListener(
+                new MaterialPickerOnPositiveButtonClickListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onPositiveButtonClick(Object selection) {
+
+                        // if the user clicks on the positive
+                        // button that is ok button update the
+                        // selected date
+                        selectDateTxt.setText(/*"Selected Date is : "*/  materialDatePicker.getHeaderText());
+                        // in the above statement, getHeaderText
+                        // is the selected date preview from the
+                        // dialog
+                    }
+                });
     }
 
     /*--------------------------------------------------This is method for the Time picker-------------------------------------------------------------------*/
     private void initTimePicker() {
+        selectTimeTxt.setOnClickListener(view -> {
+            // instance of MDC time picker
+            MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
+                    // set the title for the alert dialog
+                    .setTitleText("SELECT YOUR APPOINTMENT TIMING")
+                    // set the default hour for the
+                    // dialog when the dialog opens
+                    .setHour(12)
+                    // set the default minute for the
+                    // dialog when the dialog opens
+                    .setMinute(10)
+                    // set the time format
+                    // according to the region
+                    .setTimeFormat(TimeFormat.CLOCK_12H)
+                    .build();
 
-        TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                selectTimeTxt.setText(i + ":" + i1);
-            }
-        };
+            materialTimePicker.show(getSupportFragmentManager(), "MainActivity");
 
-        Calendar cal = Calendar.getInstance();
-        int hrs = cal.get(Calendar.HOUR);
-        int mins = cal.get(Calendar.MINUTE);
-        int am_pm = cal.get(Calendar.AM_PM);
-        int style = android.R.style.Theme_Wallpaper;
-        timePickerDialog = new TimePickerDialog(this, style, timeSetListener, hrs, mins, false);
+            // on clicking the positive button of the time picker
+            // dialog update the TextView accordingly
+            materialTimePicker.addOnPositiveButtonClickListener(v -> {
+                int pickedHour = materialTimePicker.getHour();
+                int pickedMinute = materialTimePicker.getMinute();
 
+                // check for single digit hour and minute
+                // and update TextView accordingly
+                String formattedTime;
+                if (pickedHour > 12) {
+                    formattedTime = (pickedMinute < 10) ?
+                            (materialTimePicker.getHour() - 12) + ":0" + materialTimePicker.getMinute() + " pm" :
+                            (materialTimePicker.getHour() - 12) + ":" + materialTimePicker.getMinute() + " pm";
+                } else if (pickedHour == 12) {
+                    formattedTime = (pickedMinute < 10) ?
+                            materialTimePicker.getHour() + ":0" + materialTimePicker.getMinute() + " pm" :
+                            materialTimePicker.getHour() + ":" + materialTimePicker.getMinute() + " pm";
+                } else if (pickedHour == 0) {
+                    formattedTime = (pickedMinute < 10) ?
+                            (12) + ":0" + materialTimePicker.getMinute() + " am" :
+                            (12) + ":" + materialTimePicker.getMinute() + " am";
+                } else {
+                    formattedTime = (pickedMinute < 10) ?
+                            materialTimePicker.getHour() + ":0" + materialTimePicker.getMinute() + " am" :
+                            materialTimePicker.getHour() + ":" + materialTimePicker.getMinute() + " am";
+                }
+
+                // then update the preview TextView
+                selectTimeTxt.setText(formattedTime);
+            });
+        });
     }
 }

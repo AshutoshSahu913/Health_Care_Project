@@ -3,8 +3,6 @@ package com.example.healthcareproject.Doctors;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -18,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DoctorDetails extends AppCompatActivity {
-    private String[][] doctor_details1 = {
+    private final String[][] doctor_details1 = {
             {
                     "Doctor Name: Dr. Adwani Satish",
                     "Hospital Address: Sant Hirdaram Nagar, Bhopal",
@@ -70,7 +68,7 @@ public class DoctorDetails extends AppCompatActivity {
             }
     };
 
-    private String[][] doctor_details2 = {
+    private final String[][] doctor_details2 = {
             {
                     "Doctor Name: Dr. Emily Davis",
                     "Hospital Address: 321 Health Lane, Medical City",
@@ -129,7 +127,7 @@ public class DoctorDetails extends AppCompatActivity {
             }
     };
 
-    private String[][] doctor_details3 = {
+    private final String[][] doctor_details3 = {
             {
                     "Doctor Name: Dr. Samantha Brown",
                     "Hospital Address: 432 Health Plaza, Wellness City",
@@ -167,7 +165,7 @@ public class DoctorDetails extends AppCompatActivity {
             }
     };
 
-    private String[][] doctor_details4 = {
+    private final String[][] doctor_details4 = {
             {
                     "Doctor Name: Dr. Ethan Anderson",
                     "Hospital Address: 111 Health Street, Careville",
@@ -205,44 +203,6 @@ public class DoctorDetails extends AppCompatActivity {
             }
     };
 
-    private String[][] doctor_details5 = {
-            {
-                    "Doctor Name: Dr. Sophia Miller",
-                    "Hospital Address: 123 Health Avenue, Care City",
-                    "Experience: 8 years",
-                    "Mobile Number: 111-222-3333",
-                    "450"
-            },
-            {
-                    "Doctor Name: Dr. Jacob Thompson",
-                    "Hospital Address: 456 Wellness St, Remedytown",
-                    "Experience: 17 years",
-                    "Mobile Number: 444-555-6666",
-                    "600"
-            },
-            {
-                    "Doctor Name: Dr. Lily Johnson",
-                    "Hospital Address: 789 Medical Park, Health Haven",
-                    "Experience: 20 years",
-                    "Mobile Number: 777-888-9999",
-                    "700"
-            },
-            {
-                    "Doctor Name: Dr. Ethan Clark",
-                    "Hospital Address: 543 Cure Blvd, Wellnessville",
-                    "Experience: 15 years",
-                    "Mobile Number: 888-777-6666",
-                    "550"
-            },
-            {
-                    "Doctor Name: Dr. Ava Anderson",
-                    "Hospital Address: 876 Healing Ave, Medical City",
-                    "Experience: 13 years",
-                    "Mobile Number: 222-333-4444",
-                    "500"
-            }
-    };
-
 
     String[][] doctor_details = {};
     ArrayList list;
@@ -265,6 +225,7 @@ public class DoctorDetails extends AppCompatActivity {
 
         String department = i.getStringExtra("dept");
         dept.setText(department);
+        assert department != null;
         if (department.compareTo("Family Physicians") == 0) {
             doctor_details = doctor_details1;
         } else if (department.compareTo("Dentists") == 0) {
@@ -284,20 +245,19 @@ public class DoctorDetails extends AppCompatActivity {
         /*--------------------------------------------------------------back to find Doctor---------------------------------------------------------------------------------------*/
         backToFindDoctor = findViewById(R.id.backToFindDoctor);
         backToFindDoctor.setOnClickListener(view -> {
-            Intent intent = new Intent(DoctorDetails.this, FindDoctor.class);
-
-            startActivity(intent);
-
+//            Intent intent = new Intent(DoctorDetails.this, FindDoctor.class);
+//            startActivity(intent);
+            onBackPressed();
         });
 
         list = new ArrayList();
-        for (int j = 0; j < doctor_details.length; j++) {
-            item = new HashMap<String, String>();
-            item.put("line1", doctor_details[j][0]);
-            item.put("line2", doctor_details[j][1]);
-            item.put("line3", doctor_details[j][2]);
-            item.put("line4", doctor_details[j][3]);
-            item.put("line5", "Fees :₹" + doctor_details[j][4] + "/-");
+        for (String[] doctorDetail : doctor_details) {
+            item = new HashMap<>();
+            item.put("line1", doctorDetail[0]);
+            item.put("line2", doctorDetail[1]);
+            item.put("line3", doctorDetail[2]);
+            item.put("line4", doctorDetail[3]);
+            item.put("line5", "Fees :₹" + doctorDetail[4] + "/-");
 
             list.add(item);
 
@@ -310,18 +270,15 @@ public class DoctorDetails extends AppCompatActivity {
         ListView lst = findViewById(R.id.listView);
         lst.setAdapter(sa);
 
-        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(DoctorDetails.this, BookAppointment.class);
+        lst.setOnItemClickListener((adapterView, view, i1, l) -> {
 
-                intent.putExtra("text1", department);
-                intent.putExtra("text2", doctor_details[i][0]);
-                intent.putExtra("text3", doctor_details[i][1]);
-                intent.putExtra("text4", doctor_details[i][3]);
-                intent.putExtra("text5", doctor_details[i][4]);
-                startActivityForResult(intent, 1);
-            }
+            Intent intent = new Intent(DoctorDetails.this, BookAppointment.class);
+            intent.putExtra("text1", department);
+            intent.putExtra("text2", doctor_details[i1][0]);
+            intent.putExtra("text3", doctor_details[i1][1]);
+            intent.putExtra("text4", doctor_details[i1][3]);
+            intent.putExtra("text5", doctor_details[i1][4]);
+            startActivityForResult(intent, 1);
         });
     }
 }

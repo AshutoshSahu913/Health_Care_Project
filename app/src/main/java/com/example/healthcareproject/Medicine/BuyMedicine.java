@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.healthcareproject.Cart.MyCartLab;
 import com.example.healthcareproject.HomePage;
 import com.example.healthcareproject.R;
 
@@ -20,6 +19,7 @@ import java.util.HashMap;
 public class BuyMedicine extends AppCompatActivity {
 
     TextView titleBM;
+
 
     private final String[][] packages =
             {
@@ -65,12 +65,6 @@ public class BuyMedicine extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_medicine);
 
-        /*--------------------------------------------------------------Set Title---------------------------------------------------------------------------------------*/
-        Intent it = getIntent();
-        String title = it.getStringExtra("title");
-        titleBM = findViewById(R.id.titleBM);
-        titleBM.setText(title);
-
         /*--------------------------------------------------------------Go back to Home---------------------------------------------------------------------------------------*/
         backToHomeBM=findViewById(R.id.backToHomeBM);
         backToHomeBM.setOnClickListener(view -> {
@@ -81,7 +75,7 @@ public class BuyMedicine extends AppCompatActivity {
         /*--------------------------------------------------------------Go to My Cart ---------------------------------------------------------------------------------------*/
         goToCart=findViewById(R.id.goToCartBtnBM);
         goToCart.setOnClickListener(view -> {
-            Intent i = new Intent(BuyMedicine.this, MyCartLab.class);
+            Intent i = new Intent(BuyMedicine.this, MyCartMedicine.class);
             startActivity(i);
         });
 

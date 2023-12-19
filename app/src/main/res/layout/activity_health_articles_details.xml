@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color1"
     tools:context=".Articles.HealthArticlesDetails">
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -47,103 +49,102 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
         android:elevation="20dp"
-        app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:orientation="vertical">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:drawableStart="@drawable/baseline_medical_services_24"
+                            android:fontFamily="@font/amaranth"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/amaranth"
+                            android:text="Article : "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/articleNameTxt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/amaranth"
+                            android:hint="Article name"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+<!--
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:drawableStart="@drawable/baseline_medical_services_24"
-                        android:fontFamily="@font/amaranth"
+                        android:layout_margin="5dp"
+                        android:drawableStart="@drawable/baseline_medical_information_24"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="@font/amaranth_bold"
                         android:gravity="center_vertical"
                         android:padding="10dp"
-                        android:textColor="@color/black"
+                        android:text="Articles Details "
+                        android:textColor="@color/appColor"
                         android:textSize="15sp"
                         android:textStyle="bold" />
+-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/amaranth"
-                        android:text="Article : "
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/articleDetailsImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:src="@drawable/healty" />
 
-                    <TextView
-                        android:id="@+id/articleNameTxt"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/amaranth"
-                        android:hint="Article name"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/articleImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="550dp"
+                        android:src="@drawable/workout" />
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:drawableStart="@drawable/baseline_medical_information_24"
-                    android:drawablePadding="10dp"
-                    android:fontFamily="@font/amaranth_bold"
-                    android:gravity="center_vertical"
-                    android:padding="10dp"
-                    android:text="Articles Details "
-                    android:textColor="@color/appColor"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/articleDetailsTxt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:fontFamily="@font/amaranth"
-                        android:gravity="center_vertical"
-                        android:hint="Descriptions"
-                        android:padding="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                </ScrollView>
-
             </LinearLayout>
-
-        </LinearLayout>
+        </ScrollView>
     </androidx.cardview.widget.CardView>
 
 

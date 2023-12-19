@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.healthcareproject.Articles.HealthArticles;
+import com.example.healthcareproject.DataBase.DataBase;
 import com.example.healthcareproject.Doctors.FindDoctor;
 import com.example.healthcareproject.LabTest.LabTest;
 import com.example.healthcareproject.Login.LoginPage;
@@ -31,6 +32,8 @@ public class HomePage extends AppCompatActivity {
         name = findViewById(R.id.userNameHome);
         SharedPreferences sharedPreferences = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "");
+        DataBase db=new DataBase(this);
+        db.getUsername();
         name.setText(username);
 
         /*--------------------------------------This is for logout the app ----------------------------------------------------------------------------------------*/
@@ -69,8 +72,6 @@ public class HomePage extends AppCompatActivity {
 
         buyMedicine.setOnClickListener(view -> {
             Intent i = new Intent(HomePage.this, BuyMedicine.class);
-            bmTitle = findViewById(R.id.titleBM);
-            i.putExtra("title", bmTitle.getText());
             startActivity(i);
         });
 
@@ -79,8 +80,6 @@ public class HomePage extends AppCompatActivity {
 
         healthArticles.setOnClickListener(view -> {
             Intent i = new Intent(HomePage.this, HealthArticles.class);
-            haTitle = findViewById(R.id.titleHA);
-            i.putExtra("title", haTitle.getText());
             startActivity(i);
         });
 

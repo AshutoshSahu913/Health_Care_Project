@@ -36,7 +36,7 @@
             android:name=".LabTest.BookLabTest"
             android:exported="false" />
         <activity
-            android:name=".Cart.MyCartLab"
+            android:name=".LabTest.MyCartLab"
             android:exported="false" />
         <activity
             android:name=".LabTest.LabTestDetails"
@@ -61,6 +61,9 @@
             android:exported="false" />
         <activity
             android:name=".Login.LoginPage"
+            android:exported="false"/>
+        <activity
+            android:name=".Login.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,9 +71,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Login.SplashScreen"
-            android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"

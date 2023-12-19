@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.healthcareproject.DataBase.DataBase;
-import com.example.healthcareproject.Cart.MyCartLab;
 import com.example.healthcareproject.R;
 
 public class LabTestDetails extends AppCompatActivity {

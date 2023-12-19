@@ -177,4 +177,23 @@ public class DataBase extends SQLiteOpenHelper {
     }
 
 
+    // Add a method to retrieve the username
+    @SuppressLint("Range")
+    public String getUsername() {
+        String username = null;
+        SQLiteDatabase db=getReadableDatabase();
+        // Assume you have a table named "users" with a column "username"
+        String query = "SELECT username FROM users";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            username = cursor.getString(cursor.getColumnIndex("Username"));
+            cursor.close();
+        }
+
+        db.close();
+        return username;
+    }
+
+
 }

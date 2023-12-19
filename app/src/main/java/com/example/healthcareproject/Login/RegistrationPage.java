@@ -1,8 +1,13 @@
 package com.example.healthcareproject.Login;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +24,9 @@ public class RegistrationPage extends AppCompatActivity {
     TextInputEditText edUsername, edPassword, edEmail, edConfirmPassword;
     Button registerBtn;
     TextView loginHere;
+    CheckBox checkBox2;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +37,7 @@ public class RegistrationPage extends AppCompatActivity {
         edConfirmPassword = findViewById(R.id.editRePassword);
         registerBtn = findViewById(R.id.registerBtn);
         loginHere = findViewById(R.id.loginHere);
-
+        checkBox2=findViewById(R.id.showPasswordCheckbox2);
         registerBtn.setOnClickListener(view -> {
             String userName = Objects.requireNonNull(edUsername.getText()).toString();
             String email = Objects.requireNonNull(edEmail.getText()).toString();
@@ -38,10 +45,19 @@ public class RegistrationPage extends AppCompatActivity {
             String confirm = Objects.requireNonNull(edConfirmPassword.getText()).toString();
 
 
+            checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                // Show or hide the password based on the checkbox state
+                if (isChecked) {edPassword.setTransformationMethod(null);
+//                    edConfirmPassword.setTransformationMethod(null);
+                    // Show password
+                } else {
+                    edConfirmPassword.setTransformationMethod(new PasswordTransformationMethod()); // Hide password
+//                    edConfirmPassword.setTransformationMethod(new PasswordTransformationMethod()); // Hide password
+                }
+            });
+
             // create DATABASE Objects
             DataBase db=new DataBase(getApplicationContext());
-
-
             if (userName.length() == 0 && password.length() == 0 && email.length() == 0 && confirm.length() == 0) {
                 edUsername.setError("");
                 edEmail.setError("");
